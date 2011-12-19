@@ -30,6 +30,12 @@ public class Heater extends Actor
 
     // A boolean flag indicating if heater is initialized or not
     private boolean heaterInitiated;
+    
+    //private final float h = 1;
+    //private final float k = 1;
+    private static final float r = 0.125f;//k / (h * h);
+    private static final boolean periodic = false; 
+    
 
 
     /**
@@ -133,17 +139,54 @@ public class Heater extends Actor
     private void diffuseTemperature()
     {        
         // "Dummy" implementation. You need to change this!
+        float[][] newHeatMap = new float[TILE_HEIGHT][TILE_WIDTH];
+        
+        float oldTemp = 0.0f;
+        float sampleA = 0.0f;
+        float sampleB = 0.0f;
+        float sampleC = 0.0f;
+        float sampleD = 0.0f;
+        float newTemp = 0.0f;
         
         for(int i=0; i < TILE_HEIGHT; i += 1)
         {
             for(int j=0; j < TILE_WIDTH; j += 1)
             {
                 // Simply reduce heat at each grid point.
-                heat[i][j] = heat[i][j]-0.01f;
+                if (periodic)
+                {
+                    oldTemp = heat[i][j];
+                    sampleA = heat[i][(j+1)%TILE_WIDTH];
+                    sampleB = heat[i][(TILE_WIDTH+((j-1)%TILE_WIDTH))%TILE_WIDTH];
+                    sampleC = heat[(i+1)%TILE_HEIGHT][j];
+                    sampleD = heat[(TILE_HEIGHT+((i-1)%TILE_HEIGHT))%TILE_HEIGHT][j];
+                    newTemp = oldTemp+r*(sampleA-oldTemp+sampleB-oldTemp+
+                                    sampleC-oldTemp+sampleD-oldTemp)/4;
+                }
+                {
+                    oldTemp = heat[i][j];
+                    sampleA = (j+1 < TILE_WIDTH) ? heat[i][j+1] : 0.0f;
+                    sampleB = (j-1 >= 0) ? heat[i][j-1] : 0.0f;
+                    sampleC = (i+1 < TILE_HEIGHT) ? heat[i+1][j] : 0.0f;
+                    sampleD = (i-1 >= 0) ? heat[i-1][j] : 0.0f;
+                    newTemp = oldTemp+r*(sampleA-oldTemp+sampleB-oldTemp+
+                                    sampleC-oldTemp+sampleD-oldTemp)/4;
+                }
                 // Make sure we don't get negative values.
-                if(heat[i][j] < 0) heat[i][j] = 0;
+                if(newTemp < 0.0f) newTemp = 0.0f;
+                else if(newTemp >= 1.0f) newTemp = 1.0f;
+                
+                newHeatMap[i][j] = newTemp;
             }
         }
+        
+        for(int i=0; i < TILE_HEIGHT; i++)
+        {
+            for(int j=0; j < TILE_WIDTH; j++)
+            {
+                heat[i][j]=newHeatMap[i][j];
+            }
+        }       
     }
     
     /**
@@ -181,14 +224,14 @@ public class Heater extends Actor
                 // colors. Each color consists of red, green, and blue
                 // components. This procedure makes hot (heat==1) red and
                 // cold (heat==0) blue.
-                float h;
+                float temp;
                 int r,g,b;
 
-                h = heat[i][j];
+                temp = heat[i][j];
 
-                r = Math.round(255 * h);
-                b = Math.round(255*(1 - h));
-                g = Math.round(255*(1 - h));
+                r = Math.round(255 * temp);
+                b = Math.round(255*(1 - temp));
+                g = Math.round(255*(1 - temp));
 
                 image.setColor(new Color(r, g, b));
                 image.fillRect(j*cellWidth, i*cellHeight, cellWidth, cellHeight);

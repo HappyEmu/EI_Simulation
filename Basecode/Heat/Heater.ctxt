@@ -1,20 +1,20 @@
 #BlueJ class context
 comment0.params=
 comment0.target=Heater()
-comment0.text=\r\n\ Default\ Constructor.\r\n
+comment0.text=\n\ Default\ Constructor.\n
 comment1.params=
 comment1.target=void\ initHeater()
-comment1.text=\r\n\ This\ function\ initializes\ the\ heater.\r\n
+comment1.text=\n\ This\ function\ initializes\ the\ heater.\n
 comment2.params=
 comment2.target=void\ act()
-comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ Heater\ wants\ to\ do.\ This\ method\ is\ called\ in\ each\r\n\ simulation\ step.\ The\ simulation\ is\ started\ by\ clicking\ the\ "run"\ button\r\n\ at\ the\ bottom\ of\ the\ Greenfoot\ window.\r\n
+comment2.text=\n\ Act\ -\ do\ whatever\ the\ Heater\ wants\ to\ do.\ This\ method\ is\ called\ in\ each\n\ simulation\ step.\ The\ simulation\ is\ started\ by\ clicking\ the\ "run"\ button\n\ at\ the\ bottom\ of\ the\ Greenfoot\ window.\n
 comment3.params=
 comment3.target=void\ diffuseTemperature()
-comment3.text=\r\n\ This\ function\ computes\ the\ heat\ diffusion\ in\ each\ time\ step.\ \r\n\ \r\n\ You\ need\ to\ change\ this\ code\ to\ implement\ heat\ diffusion.\ \r\n\ This\ is\ just\ for\ demonstration\ purposes\!\r\n
+comment3.text=\n\ This\ function\ computes\ the\ heat\ diffusion\ in\ each\ time\ step.\ \n\ \n\ You\ need\ to\ change\ this\ code\ to\ implement\ heat\ diffusion.\ \n\ This\ is\ just\ for\ demonstration\ purposes\!\n
 comment4.params=
 comment4.target=void\ initTemperature()
-comment4.text=\r\n\ This\ function\ initializes\ the\ temperature\ with\ a\ random\ value\ \r\n\ between\ 0\ and\ 1\ for\ each\ grid\ cell.\r\n\ \r\n
+comment4.text=\n\ This\ function\ initializes\ the\ temperature\ with\ a\ random\ value\ \n\ between\ 0\ and\ 1\ for\ each\ grid\ cell.\n\ \n
 comment5.params=
 comment5.target=void\ displayTemperature()
-comment5.text=\r\n\ This\ function\ displays\ the\ room\ temperature\ using\ a\ certain\ coloring\ scheme.\r\n\ \r\n
+comment5.text=\n\ This\ function\ displays\ the\ room\ temperature\ using\ a\ certain\ coloring\ scheme.\n\ \n
 numComments=6

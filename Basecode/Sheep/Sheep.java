@@ -17,7 +17,7 @@ public class Sheep extends Actor
 {
     private final static float INITIAL_FOOD = 25.0f;
     private final static float DYING_THRESHOLD = 0.0f;
-    private final static float MULTIPLYING_THRESHOLD = 100.0f;
+    private final static float MULTIPLYING_THRESHOLD = 1000.0f;
     private final static float FOOD_DEPLETION = 0.1f;
     private final static float FOOD_INCREMENT = 1.0f;
 
