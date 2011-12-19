@@ -33,8 +33,8 @@ public class Heater extends Actor
     
     //private final float h = 1;
     //private final float k = 1;
-    private static final float r = 0.125f;//k / (h * h);
-    private static final boolean periodic = false; 
+    private static final float r = 0.01f;//k / (h * h);
+    private static final boolean periodic = true; 
     
 
 
@@ -98,13 +98,13 @@ public class Heater extends Actor
             MouseInfo mouse = Greenfoot.getMouseInfo();
 
             // Check if left button is pressed or not. 1 means left button.
-            if (1 == mouse.getButton())
+            if (3 == mouse.getButton())
             {
                 // Re-initialize room tempetature with random values.
                 initTemperature();
             } else 
             // Check if right button is pressed. 3 means left button.
-            if (3 == mouse.getButton())
+            if (1 == mouse.getButton())
             {   
                 // By right clicking, the user can "paint" heat values on 
                 // the grid. 
@@ -142,39 +142,37 @@ public class Heater extends Actor
         float[][] newHeatMap = new float[TILE_HEIGHT][TILE_WIDTH];
         
         float oldTemp = 0.0f;
-        float sampleA = 0.0f;
-        float sampleB = 0.0f;
-        float sampleC = 0.0f;
-        float sampleD = 0.0f;
+        float sampleRight = 0.0f;
+        float sampleLeft = 0.0f;
+        float sampleUp = 0.0f;
+        float sampleDown = 0.0f;
         float newTemp = 0.0f;
         
-        for(int i=0; i < TILE_HEIGHT; i += 1)
+        for(int i=0; i < TILE_HEIGHT; i++)
         {
-            for(int j=0; j < TILE_WIDTH; j += 1)
+            for(int j=0; j < TILE_WIDTH; j++)
             {
-                // Simply reduce heat at each grid point.
+                oldTemp = heat[i][j];
+                
                 if (periodic)
                 {
-                    oldTemp = heat[i][j];
-                    sampleA = heat[i][(j+1)%TILE_WIDTH];
-                    sampleB = heat[i][(TILE_WIDTH+((j-1)%TILE_WIDTH))%TILE_WIDTH];
-                    sampleC = heat[(i+1)%TILE_HEIGHT][j];
-                    sampleD = heat[(TILE_HEIGHT+((i-1)%TILE_HEIGHT))%TILE_HEIGHT][j];
-                    newTemp = oldTemp+r*(sampleA-oldTemp+sampleB-oldTemp+
-                                    sampleC-oldTemp+sampleD-oldTemp)/4;
+                    sampleRight = heat[i][mod(j+1,TILE_WIDTH)];
+                    sampleLeft = heat[i][mod(j-1,TILE_WIDTH)];
+                    sampleUp = heat[mod(i+1,TILE_HEIGHT)][j];
+                    sampleDown = heat[mod(i-1,TILE_HEIGHT)][j];
                 }
+                else
                 {
-                    oldTemp = heat[i][j];
-                    sampleA = (j+1 < TILE_WIDTH) ? heat[i][j+1] : 0.0f;
-                    sampleB = (j-1 >= 0) ? heat[i][j-1] : 0.0f;
-                    sampleC = (i+1 < TILE_HEIGHT) ? heat[i+1][j] : 0.0f;
-                    sampleD = (i-1 >= 0) ? heat[i-1][j] : 0.0f;
-                    newTemp = oldTemp+r*(sampleA-oldTemp+sampleB-oldTemp+
-                                    sampleC-oldTemp+sampleD-oldTemp)/4;
+                    sampleRight = (j+1 < TILE_WIDTH) ? heat[i][j+1] : 0.0f;
+                    sampleLeft = (j-1 >= 0) ? heat[i][j-1] : 0.0f;
+                    sampleUp = (i+1 < TILE_HEIGHT) ? heat[i+1][j] : 0.0f;
+                    sampleDown = (i-1 >= 0) ? heat[i-1][j] : 0.0f;
                 }
-                // Make sure we don't get negative values.
+                
+                newTemp = oldTemp+r*((sampleRight-oldTemp)+(sampleLeft-oldTemp)+(sampleUp-oldTemp)+(sampleDown-oldTemp));
+                
+                //Clamp
                 if(newTemp < 0.0f) newTemp = 0.0f;
-                else if(newTemp >= 1.0f) newTemp = 1.0f;
                 
                 newHeatMap[i][j] = newTemp;
             }
@@ -189,6 +187,10 @@ public class Heater extends Actor
         }       
     }
     
+    private int mod(int a, int b)
+    {
+        return (((a%b)+b)%b);
+    }
     /**
      * This function initializes the temperature with a random value 
      * between 0 and 1 for each grid cell.
@@ -206,7 +208,7 @@ public class Heater extends Actor
             }
         }
     }
-
+    
     /**
      * This function displays the room temperature using a certain coloring scheme.
      * 
@@ -231,7 +233,7 @@ public class Heater extends Actor
 
                 r = Math.round(255 * temp);
                 b = Math.round(255*(1 - temp));
-                g = Math.round(255*(1 - temp));
+                g = Math.round(128*(1 - temp));
 
                 image.setColor(new Color(r, g, b));
                 image.fillRect(j*cellWidth, i*cellHeight, cellWidth, cellHeight);
