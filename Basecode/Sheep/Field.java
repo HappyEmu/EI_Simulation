@@ -124,6 +124,13 @@ public class Field extends World
 
         return !lTemp.isEmpty();
     }
+    
+    public boolean hasFireAt(int x, int y)
+    {
+        java.util.List lTemp = getObjectsAt(x, y, Fire.class);
+
+        return !lTemp.isEmpty();
+    }
 
     /**
      * This function removes all the grass patches at a given location.
@@ -139,6 +146,25 @@ public class Field extends World
         {
             removeObject((Actor)lTemp.get(0));
         }
+    }
+    
+    public void turnGrassToFire(int x, int y)
+    {
+        java.util.List lTemp = getObjectsAt(x, y, Grass.class);
+        
+        if(!lTemp.isEmpty())
+        {
+            removeObject((Actor)lTemp.get(0));
+        }
+        
+        Fire f = new Fire();
+        addObject(f, x, y);
+    }
+    
+    public void seedGrass(int x, int y)
+    {
+        Grass newGrass = new Grass();
+        addObject(newGrass, x, y);
     }
 
     /**
@@ -401,5 +427,14 @@ public class Field extends World
         Sheep sheep18 = new Sheep();
         addObject(sheep18, 3, 34);
         sheep18.setDirection(true, true, true, true);
+        Fire fire1 = new Fire();
+        addObject(fire1, 1, 35);
+        Fire fire2 = new Fire();
+        addObject(fire2, 1, 36);
+        Fire fire3 = new Fire();
+        addObject(fire3, 2, 36);
+        
+        User user = new User();
+        addObject(user,0,0);
     }
 }
