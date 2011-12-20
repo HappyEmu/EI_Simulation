@@ -1,11 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class FireSheep here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+
 public class FireSheep extends Sheep
 {
     private static final int MAX_LIFE = 200;
@@ -22,10 +17,7 @@ public class FireSheep extends Sheep
                       
         this.life = MAX_LIFE;
     }
-    /**
-     * Act - do whatever the FireSheep wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+
     public void act() 
     {
         Field theField = getWorld();
@@ -41,7 +33,8 @@ public class FireSheep extends Sheep
             return;
         }
         
-        if (theField.hasWaterAt(newX, newY))
+        if (theField.hasWaterAt(newX, newY) || theField.hasWaterAt(oldX, oldY) ||
+            theField.hasRainAt(newX, newY) || theField.hasRainAt(oldX, oldY))
         {
             Sheep s = new Sheep();
             s.setDirection(-this.dir.rightSteps, -this.dir.upSteps);

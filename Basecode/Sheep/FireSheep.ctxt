@@ -3,7 +3,6 @@ comment0.params=f1\ f2\ f3\ f4
 comment0.target=FireSheep(Fire,\ Fire,\ Fire,\ Fire)
 comment1.params=
 comment1.target=void\ act()
-comment1.text=\n\ Act\ -\ do\ whatever\ the\ FireSheep\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
 comment2.params=
 comment2.target=void\ kill()
 numComments=3
