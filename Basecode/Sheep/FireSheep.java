@@ -37,14 +37,19 @@ public class FireSheep extends Sheep
         
         if (--life <= 0)
         {
-            getWorld().removeObject(this.f1);
-            getWorld().removeObject(this.f2);
-            getWorld().removeObject(this.f3);
-            getWorld().removeObject(this.f4);
-            getWorld().removeObject(this);
+            this.kill();
             return;
         }
-            
+        
+        if (theField.hasWaterAt(newX, newY))
+        {
+            Sheep s = new Sheep();
+            s.setDirection(-this.dir.rightSteps, -this.dir.upSteps);
+            theField.addObject(s, oldX, oldY);
+            this.kill();
+            return;
+        }
+        
         if(!theField.hasBrickAt(newX, newY))
         {
             if (theField.hasGrassAt(newX, newY))
@@ -59,5 +64,14 @@ public class FireSheep extends Sheep
         {      
             bounceFromSolid(theField, oldX, oldY, newX, newY);
         }
-    }    
+    }
+    
+    public void kill()
+    {
+        getWorld().removeObject(this.f1);
+        getWorld().removeObject(this.f2);
+        getWorld().removeObject(this.f3);
+        getWorld().removeObject(this.f4);
+        getWorld().removeObject(this);
+    }
 }

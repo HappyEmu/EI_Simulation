@@ -90,7 +90,7 @@ public class Sheep extends Actor
         }
        
         // Check if the new location is empty or not.
-        if(theField.isEmpty(newX, newY))
+        if(theField.isEmpty(newX, newY) || theField.hasRainAt(newX,newY))
         {
             // New location is empty. Move there.
             setLocation(newX, newY);
@@ -118,7 +118,7 @@ public class Sheep extends Actor
                 
                 this.full += FOOD_INCREMENT;
             }
-            else if (theField.hasFireAt(newX, newY))
+            else if (theField.hasFireAt(newX, newY)||theField.hasFireAt(oldX,oldY))
             {
                 Fire f1 = new PermaFire();
                 Fire f2 = new PermaFire();
@@ -134,8 +134,8 @@ public class Sheep extends Actor
                 getWorld().addObject(f4,x,y-1);
                 
                 FireSheep fireSheep = new FireSheep(f1,f2,f3,f4);              
-                
-                fireSheep.setDirection(-this.dir.rightSteps, -this.dir.upSteps);
+                Random rand = new Random();
+                fireSheep.setDirection(-this.dir.rightSteps,-this.dir.upSteps);
                 getWorld().addObject(fireSheep,oldX,oldY);
                 
                 getWorld().removeObject(this);
@@ -248,6 +248,6 @@ public class Sheep extends Actor
     public void setDirection(int x, int y)
     {
         this.dir.rightSteps = x;
-        this.dir.rightSteps = y;
+        this.dir.upSteps = y;
     }
 }

@@ -131,6 +131,20 @@ public class Field extends World
 
         return !lTemp.isEmpty();
     }
+    
+    public boolean hasRainAt(int x, int y)
+    {
+        java.util.List lTemp = getObjectsAt(x, y, Rain.class);
+
+        return !lTemp.isEmpty();
+    }
+    
+    public boolean hasWaterAt(int x, int y)
+    {
+        java.util.List lTemp = getObjectsAt(x, y, Water.class);
+
+        return !lTemp.isEmpty();
+    }
 
     /**
      * This function removes all the grass patches at a given location.
@@ -161,10 +175,55 @@ public class Field extends World
         addObject(f, x, y);
     }
     
+    public void turnRainToWater(int x, int y)
+    {
+        java.util.List lTemp = getObjectsAt(x, y, Rain.class);
+        
+        if(!lTemp.isEmpty())
+        {
+            removeObject((Actor)lTemp.get(0));
+        }
+        
+        Water w = new Water();
+        Water w1 = new Water();
+        Water w2 = new Water();
+        Water w3 = new Water();
+        Water w4 = new Water();
+        addObject(w, x, y);
+        addObject(w1, x+1, y);
+        addObject(w2, x-1, y);
+        addObject(w3, x, y+1);
+        addObject(w4, x, y-1);
+    }
+    
     public void seedGrass(int x, int y)
     {
         Grass newGrass = new Grass();
         addObject(newGrass, x, y);
+    }
+    
+    public void spawnWaterAt(int x, int y)
+    {
+        Water newWater = new Water();
+        addObject(newWater, x, y);
+    }
+    
+    public void spawnRainAt(int x, int y)
+    {
+        Rain newRain = new Rain();
+        addObject(newRain, x, y);
+    }
+    
+    public void spawnFireAt(int x, int y)
+    {
+        Fire f = new Fire();
+        addObject(f, x, y);
+    }
+    
+    public void spawnLightningAt(int x, int y)
+    {
+        Lightning l = new Lightning();
+        addObject(l, x, y);
     }
 
     /**
@@ -179,7 +238,7 @@ public class Field extends World
      */
     public boolean hasSolidAt(int x, int y)
     {
-        return hasBrickAt(x, y) || hasSheepAt(x, y);
+        return hasBrickAt(x, y) || hasSheepAt(x, y) || hasWaterAt(x, y);
     }
 
     /**
@@ -427,14 +486,11 @@ public class Field extends World
         Sheep sheep18 = new Sheep();
         addObject(sheep18, 3, 34);
         sheep18.setDirection(true, true, true, true);
-        Fire fire1 = new Fire();
-        addObject(fire1, 1, 35);
-        Fire fire2 = new Fire();
-        addObject(fire2, 1, 36);
-        Fire fire3 = new Fire();
-        addObject(fire3, 2, 36);
         
         User user = new User();
         addObject(user,0,0);
+        
+        WeatherController rc = new WeatherController();
+        addObject(rc,0,0);
     }
 }

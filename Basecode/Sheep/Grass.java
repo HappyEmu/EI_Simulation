@@ -102,6 +102,7 @@ public class Grass extends Actor
                 theWorld.removeObject(this);
             }
         }
+        
     }
 
     /**

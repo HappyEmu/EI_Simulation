@@ -33,6 +33,14 @@ public class Fire extends Actor
             field.turnGrassToFire(x,y-1);
             
         if (--life <= 0)
-            getWorld().removeObject(this);
-    }    
+        {
+            this.die();
+            return;
+        }
+    }
+    
+    public void die()
+    {
+        getWorld().removeObject(this);
+    }
 }
