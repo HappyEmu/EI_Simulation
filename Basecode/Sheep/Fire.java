@@ -8,9 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Fire extends Actor
 {
-    private static final int MAX_LIFETIME = 5;
+    protected static final int MAX_LIFETIME = 5;
     
-    private int life;
+    protected int life;
     
     public Fire() {
         this.life = MAX_LIFETIME;

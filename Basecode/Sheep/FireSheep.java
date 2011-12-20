@@ -10,9 +10,16 @@ public class FireSheep extends Sheep
 {
     private static final int MAX_LIFE = 200;
     private int life;
-    public FireSheep()
+    
+    private Fire f1,f2,f3,f4;
+    public FireSheep(Fire f1, Fire f2, Fire f3, Fire f4)
     {
         super();
+        this.f1 = f1;
+        this.f2 = f2;
+        this.f3 = f3;
+        this.f4 = f4;
+                      
         this.life = MAX_LIFE;
     }
     /**
@@ -30,6 +37,10 @@ public class FireSheep extends Sheep
         
         if (--life <= 0)
         {
+            getWorld().removeObject(this.f1);
+            getWorld().removeObject(this.f2);
+            getWorld().removeObject(this.f3);
+            getWorld().removeObject(this.f4);
             getWorld().removeObject(this);
             return;
         }
@@ -39,6 +50,10 @@ public class FireSheep extends Sheep
             if (theField.hasGrassAt(newX, newY))
                 theField.turnGrassToFire(newX, newY);
             setLocation(newX, newY);
+            if (!theField.hasBrickAt(oldX+1, oldY)) f1.setLocation(newX+1,newY);
+            if (!theField.hasBrickAt(oldX-1, oldY)) f2.setLocation(newX-1,newY);
+            if (!theField.hasBrickAt(oldX, oldY+1)) f3.setLocation(newX,newY+1);
+            if (!theField.hasBrickAt(oldX, oldY-1)) f4.setLocation(newX,newY-1);
         } 
         else 
         {      
