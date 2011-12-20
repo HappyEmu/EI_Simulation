@@ -33,7 +33,7 @@ public class Heater extends Actor
     
     //private final float h = 1;
     //private final float k = 1;
-    private static final float r = 0.01f;//k / (h * h);
+    private static final float r = 0.02f;//k / (h * h);
     private static final boolean periodic = false; 
     
 
